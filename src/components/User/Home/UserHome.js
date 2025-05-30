@@ -98,13 +98,11 @@ const UserHome = () => {
             <div className="slider-track-poster" style={{ transform: `translateX(-${movieCurrentSlide * 100}%)` }}>
               {filteredData.map(item => (
                 <div key={item._id} className="slider-card-poster">
-                  <Link to={`/moviedetails/${item._id}`} state={item} onClick={() => setID(item._id, item.movieName, item.movieGenre, item.movieLanguage, item.movieFormat)}>
+                  <Link to={`/moviedetails/${item._id}`} state={item} onClick={() => setID(item._id, item.movieName, item.movieGenre)}>
                     <Card
                       image={item.image}
                       movieName={item.movieName}
                       movieGenre={item.movieGenre}
-                      movieLanguage={item.movieLanguage}
-                      movieFormat={item.movieFormat}
                     />
                   </Link>
                 </div>
@@ -116,7 +114,7 @@ const UserHome = () => {
 
         <div className="ad-banner">
           <div className="ad-content">
-            <h1 className="ad-title">TICKETFLIX STREAM</h1>
+            <h1 className="text-3xl font-bold underline">TICKETFLIX STREAM</h1>
             <p className="ad-text">Endless Entertainment Anytime. Anywhere!</p>
           </div>
         </div>
@@ -128,12 +126,12 @@ const UserHome = () => {
             <div className="slider-track-poster-event" style={{ transform: `translateX(-${eventCurrentSlide * 100}%)` }}>
               {data2.map(item => (
                 <div key={item._id} className="slider-card-poster-event">
-                  <Link to={`/eventdetails/${item._id}`} onClick={() => setID2(item._id, item.eventName, item.eventLanguage, item.eventVenue, item.eventDate, item.eventTime, item.eventType)}>
+                  <Link to={`/eventdetails/${item._id}`} onClick={() => setID2(item._id, item.eventName, item.eventLanguage, item.eventVenue, item.eventDate, item.eventTime)}>
                     <EventCard
                       image={item.image}
                       eventName={item.eventName}
                       eventVenue={item.eventVenue}
-                      eventType={item.eventType}
+                      
                     />
                   </Link>
                 </div>

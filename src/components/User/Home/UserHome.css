@@ -228,24 +228,16 @@
   border-top: 10px solid #ff6347; /* Same color as popup background */
 }
 
-/* Lock the card grid to 4 columns */
-.card-container {
-  display: grid;
-  grid-template-columns: repeat(4, 250px);
-  gap: 55px;
-  justify-content: center;
-  width: calc(4 * 250px + 3 * 55px); /* Fixed width: 1165px */
-  margin: 0 auto;
-}
+
 
 .card {
   width: 250px;       
-  height: 516px;    
+  height: 450px;    
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border: none;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: start;
   justify-content: flex-start;
 }
 
@@ -254,6 +246,34 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  height: 120px; /* Fixed height to ensure consistent spacing */
+}
+
+.event-card-container {
+  display: grid;
+  grid-template-columns: repeat(4, 250px);
+  gap: 55px;
+  justify-content: center;
+  width: calc(4 * 250px + 3 * 55px); /* Fixed width: 1165px */
+  margin: 0 auto;
+}
+
+.event-card {
+  width: 250px;       
+  height: 450px;    
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: flex-start;
+}
+
+.event-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  text-align: start;
   height: 120px; /* Fixed height to ensure consistent spacing */
 }
 
