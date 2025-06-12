@@ -1,38 +1,29 @@
-.lds-dual-ring {
-  display: inline-block;
-  width: 64px;
-  height: 64px;
-}
-
-.lds-dual-ring:after {
-  content: ' ';
-  display: block;
+/* From Uiverse.io by preshpi */ 
+.loading-spinner__overlay {
   width: 46px;
   height: 46px;
-  margin: 1px;
+  display: grid;
+  animation: spinner-plncf9 3s infinite;
+}
+
+.loading-spinner__overlay::before,
+.loading-spinner__overlay::after {
+  content: "";
+  grid-area: 1/1;
+  border: 9px solid;
   border-radius: 50%;
-  border: 5px solid #510077;
-  border-color: #510077 transparent #510077 transparent;
-  animation: lds-dual-ring 1.2s linear infinite;
+  border-color: #474bff #474bff #0000 #0000;
+  mix-blend-mode: darken;
+  animation: spinner-plncf9 1s infinite linear;
 }
 
-.loading-spinner__overlay {
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: rgba(255, 255, 255, 0.9);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.loading-spinner__overlay::after {
+  border-color: #0000 #0000 #dbdcef #dbdcef;
+  animation-direction: reverse;
 }
 
-@keyframes lds-dual-ring {
-  0% {
-    transform: rotate(0deg);
-  }
+@keyframes spinner-plncf9 {
   100% {
-    transform: rotate(360deg);
+    transform: rotate(1turn);
   }
 }

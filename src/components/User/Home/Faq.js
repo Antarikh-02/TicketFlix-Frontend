@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import "./Faq.css"; // Import your FAQ-specific CSS
 
 const Faq = () => {
-  // Sample FAQ data (customize as needed)
   const faqData = [
     {
       question: "Why Become an Online Member?",
@@ -59,29 +57,28 @@ const Faq = () => {
 
   const [activeIndex, setActiveIndex] = useState(null);
 
-  // Toggle the accordion open/close
   const handleToggle = (index) => {
     setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
   };
 
   return (
-    <div className="faq-container">
-      <h1 className="faq-title">FAQ</h1>
-      <div className="faq-list">
+    <div className="max-w-3xl mx-auto mt-10 px-4 font-sans">
+      <h1 className="text-center text-3xl font-semibold mb-8 text-gray-800">FAQ</h1>
+      <div className="border-t border-gray-300">
         {faqData.map((item, index) => (
-          <div key={index} className="faq-item">
+          <div key={index} className="border-b border-gray-300">
             <button
-              className="faq-question"
               onClick={() => handleToggle(index)}
+              className="w-full text-left bg-gray-50 hover:bg-gray-100 px-4 py-4 text-lg text-gray-800 flex justify-between items-center"
             >
               {item.question}
-              <span className="faq-icon">
+              <span className="text-2xl text-gray-400">
                 {activeIndex === index ? "−" : "+"}
               </span>
             </button>
             {activeIndex === index && (
-              <div className="faq-answer">
-                <p>{item.answer}</p>
+              <div className="bg-white px-4 py-4 text-gray-600 animate-fadeIn">
+                <p className="whitespace-pre-line">{item.answer}</p>
               </div>
             )}
           </div>

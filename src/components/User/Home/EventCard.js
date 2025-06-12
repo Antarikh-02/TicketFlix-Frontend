@@ -1,25 +1,29 @@
 import React from 'react';
-import './Card.css'; // Ensure you have some basic styling
 
-const EventCard = ({ image, eventName, eventVenue, eventType, onClick }) => {
+const EventCard = ({ image, eventName, eventVenue, onClick }) => {
   return (
-    <div className="event-card" onClick={onClick} style={{ cursor: 'pointer', border: '1px solid #ddd', padding: '10px', margin: '10px' }}>
+    <div className="border-none rounded-lg  p-3 w-[60%] h-[60%] text-start flex flex-col items-start justify-start
+                    lg:w-[220px] lg:h-[350px]
+                    xl:shadow-md xl:w-[250px] xl:h-[420px] xl:p-3 xl:m-2" onClick={onClick}>
       {image ? (
         <img
           src={image}
           alt={eventName}
-          className="event-card-image"
-          style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
+          class="w-[220px] aspect-[12/17] object-cover rounded-[8px] border-none outline-none shadow-none transition-transform duration-300 ease-in-out hover:scale-105"
+          
         />
       ) : (
-        <div className="event-card-image" style={{ width: '100%', height: '150px', backgroundColor: '#f0f0f0' }}>
+        <div className="w-full h-auto rounded">
           <p>No image available</p>
         </div>
       )}
-      <div className="event-card-content">
-        <h2 className="event-card-title">{eventName}</h2>
-        <p className="card-address">{eventVenue}</p>
-        <p className="card-type">{eventType}</p>
+      <div className="p-1 flex flex-col items-start text-start mb-[15px] ">
+        <h2 className="text-[0.9rem] font-extrabold my-0 text-[#222] no-underline hover:no-underline
+                       sm: text-[1rem]
+                       lg:text-[1rem]
+                       xl:text-[1.2rem]">{eventName}</h2>
+        <p className=" text-sm text-gray-600 w-[50%] no-underline hidden">{eventVenue}</p>
+
       </div>
     </div>
   );

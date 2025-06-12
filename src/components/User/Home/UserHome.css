@@ -82,87 +82,7 @@
   border: none;
 }
 
-/* Footer styles */
-.footer {
-  background-color: #333;
-  padding: 20px 0;
-  text-align: center;
-  color: white;
-  width: 100%;
-  margin-top: auto; 
-}
 
-/* Footer Content (base styles) */
-.footer-content {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Responsive fixes */
-@media (max-width: 768px) {
-  .footer-content {
-    padding: 0 10px;
-  }
-}
-
-.social-icons {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-}
-
-.social-icons li {
-  margin: 0 20px;
-}
-
-.social-icons a {
-  text-decoration: none;
-  color: whitesmoke;
-}
-
-.social-icons a:hover {
-  color: goldenrod;
-}
-
-/* Dark and light mode styles */
-.light-mode {
-  background-color: white;
-  color: white;
-}
-
-.dark-mode {
-  background-color: #1e1e1e;
-  color: white;
-}
-
-.theme-toggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 1000;
-}
-
-.theme-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 24px;
-  color: inherit;
-}
-
-.theme-button:hover {
-  color: #f39c12;
-}
-
-.contact-footer {
-  text-decoration: none;
-  color: white;
-}
-
-.contact-footer:hover {
-  color: #f39c12;
-}
 
 /* Search logo styling */
 .search-logo {
@@ -229,26 +149,6 @@
 }
 
 
-
-.card {
-  width: 250px;       
-  height: 450px;    
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border: none;
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  justify-content: flex-start;
-}
-
-.card-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  height: 120px; /* Fixed height to ensure consistent spacing */
-}
-
 .event-card-container {
   display: grid;
   grid-template-columns: repeat(4, 250px);
@@ -277,9 +177,6 @@
   height: 120px; /* Fixed height to ensure consistent spacing */
 }
 
-
-/* Movie Poster and Slider */
-
 .arrow-slider-container {
   position: relative;
   width: 90%; 
@@ -290,36 +187,6 @@
   justify-content: center;
 }
 
-.arrow-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  border: none;
-  font-size: 1.8rem;
-  cursor: pointer;
-  z-index: 5;
-  padding: 0.2rem 0.9rem;
-  border-radius: 100%;
-  transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-}
-.arrow-button:hover {
-  color: gold;
-  background-color: rgba(0, 0, 0, 0.8);
-  transform: translateY(-50%) scale(1.2);
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); /* Soft glowing effect */
-}
-
-.arrow-button.left {
-  margin-left: 80px;
-  left: 0;
-}
-
-.arrow-button.right {
-  margin-right: 80px;
-  right: 0;
-}
 
 
 .slider-wrapper {
@@ -374,30 +241,8 @@
   justify-content: center;
 }
 
-.arrow-button-event {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  border: none;
-  font-size: 1.8rem;
-  cursor: pointer;
-  z-index: 5;
-  padding: 0.2rem 0.9rem;
-  border-radius: 100%;
-  transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-}
 
-.arrow-button-event.left {
-  margin-left: 80px;
-  left: 0;
-}
 
-.arrow-button-event.right {
-  margin-right: 80px;
-  right: 0;
-}
 .slider-wrapper-event {
   width: 100%;
   max-width: 84%;

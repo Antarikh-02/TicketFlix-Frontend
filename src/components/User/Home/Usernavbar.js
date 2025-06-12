@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import debounce from 'lodash.debounce';
-import '../Home/Usernavbar.css';
 
 const Usernavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,7 +40,7 @@ const Usernavbar = () => {
     navigate('/');
   };
 
-  const toggleMenu = () => setIsOpen(!isOpen);
+  const toggleMenu = () => setIsOpen(prev => !prev);
   const closeMenu = () => setIsOpen(false);
   const goToHome = () => navigate('/');
 
@@ -61,7 +60,6 @@ const Usernavbar = () => {
         axios.get(`http://localhost:5000/api/eventcomplete?search=${query}`)
       ]);
 
-      // Combine and label the results
       const movieResults = movieRes.data.map(item => ({ ...item, type: 'movie' }));
       const eventResults = eventRes.data.map(item => ({ ...item, type: 'event' }));
 
@@ -71,8 +69,6 @@ const Usernavbar = () => {
       console.error('❌ Error fetching suggestions:', err);
     }
   };
-
-
 
   const debouncedFetchSuggestions = useCallback(
     debounce((query) => {
@@ -96,7 +92,6 @@ const Usernavbar = () => {
     navigate(`/${detailPath}/${suggestion._id}`, { state: suggestion });
   };
 
-
   const handleSearch = async () => {
     try {
       if (searchTerm.trim() === '') return;
@@ -115,28 +110,60 @@ const Usernavbar = () => {
 
   return (
     <>
-      <div className="User-Navbar">
-        <div className="navbar-logo" onClick={goToHome} style={{ cursor: 'pointer' }}>
-          <img src={require('./logo-png.png')} alt="TicketFlix Logo" className="logo-img" />
+      <div className="fixed top-0 w-full h-[80px] bg-[#fff] px-[2px] py-3 z-[1000] flex justify-between items-center shadow-[0_4px_10px_rgba(0,0,0,0.15)] transition-colors duration-300 ease md:gap-[10px]">
+        <div
+          className="flex items-center cursor-pointer
+                     sm:left-0
+                     md:ml-[8rem]
+                     lg:ml-[10rem]
+                     xl:ml-[12.2rem]
+                     2xl:ml-[12.4rem]
+                     antarikh:ml-[14.2rem]
+                     debojit:ml-[17rem]"
+          onClick={goToHome}
+        >
+          <img
+            src={require('./logo-png.png')}
+            alt="TicketFlix Logo"
+            className="h-[80px] w-[80px] pb-2"
+          />
         </div>
 
-        <div className="navbar-left">
-          <NavLink className="user-nav" to="/MoviePage">
+        <div className="flex items-center gap-[2px] hidden
+                         xl:block xl: flex xl:justify-around xl:pl-[20px]">
+          <NavLink
+            to="/MoviePage"
+            className="text-[1.1rem] font-medium text-[#333333] no-underline transition-colors duration-300 ease hover:text-[#f39c12]"
+          >
             Movies
           </NavLink>
         </div>
 
-        <div className="navbar-left">
-          <NavLink className="user-nav" to="/event">
+        <div className="flex items-center  ml-[3rem] hidden
+                         xl:block xl:mr-[1.7rem]">
+          <NavLink
+            to="/event"
+            className="text-[1.1rem] font-medium text-[#333333] no-underline transition-colors duration-300 ease hover:text-[#f39c12]"
+          >
             Events
           </NavLink>
         </div>
 
         {/* SEARCH BAR */}
-        <div className="navbar-center">
-          <div className="search-bar-container">
-            <div className="search-logo" onClick={handleSearch}>
-              <img src={require('./search.png')} alt="Search" className="search-icon" />
+        <div className="flex-1 flex justify-center">
+          <div className="relative flex items-center w-full max-w-[250px] bg-white border border-[#cccccc] rounded-none px-[15px] py-[5px] shadow-[0_2px_5px_rgba(0,0,0,0.1)]
+                          sm:max-w-[400px] 
+                          md:max-w-[600px]
+                          debojit:max-w-[800px]">
+            <div className="flex items-center justify-center pb-[8px] cursor-pointer" onClick={handleSearch}>
+              <img
+                src={require('./search.png')}
+                alt="Search"
+                className="w-[15px] h-[15px] mr-[10px]
+                           sm: w-[20px] h-[20px] mr-[15px]
+                           md: w-[25px] h-[25px] mr-[18px]
+                           debojit: w-[30px] debojit:h-[30px] debojit: mr-[20px]"
+              />
             </div>
             <input
               type="text"
@@ -144,51 +171,99 @@ const Usernavbar = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-              className="search-bar"
+              className="flex-1 bg-transparent text-[12px] focus:outline-none border-none p-[8px] placeholder:text-[#aaaaaa]
+                         sm:text-[20px]"
             />
             {/* SUGGESTIONS */}
-            <ul className="search-suggestions">
-              {suggestions.map((item, index) => {
-                return (
-                  <li
-                    key={index}
-                    onClick={() => handleSelectSuggestion(item)}
-                    className="suggestion-item"
-                  >
-                    {item.movieName || item.eventName || '❌ No Name Found'}
-                  </li>
-                );
-              })}
+            <ul className="absolute top-full left-0 right-0 bg-white border border-[#cccccc] border-t-0 z-[9999] list-none m-0 p-0 block">
+              {suggestions.map((item, index) => (
+                <li
+                  key={index}
+                  onClick={() => handleSelectSuggestion(item)}
+                  className="block px-[10px] py-[10px] cursor-pointer hover:bg-[#f0f0f0]"
+                >
+                  {item.movieName || item.eventName || '❌ No Name Found'}
+                </li>
+              ))}
             </ul>
-
-
           </div>
         </div>
 
-        <div className="navbar-right">
+        <div className="flex items-center gap-[1rem] relative">
           {isLoggedIn && (
-            <div className="user-info">
+            <div className="mr-[20px] font-bold hidden 
+                            sm:hidden
+                            xl:block ">
               <span>Welcome, {username.split(' ')[0]}</span>
             </div>
           )}
 
-          <div className="hamburger-wrapper">
-            <div className={`hamburger-menu ${isOpen ? 'active' : ''}`} onClick={toggleMenu}>
-              <div className="bar"></div>
-              <div className="bar"></div>
-              <div className="bar"></div>
+          <div className="relative inline-block pr-[10px]
+                          sm:right-0
+                          md:mr-[7rem] pl-[8px]
+                          lg:mr-[10rem]
+                          xl:mr-[12.2rem]
+                          2xl:mr-[12.4rem]
+                          antarikh:mr-[14.2rem]
+                          debojit:mr-[18.8rem]">
+            <div
+              className="flex flex-col cursor-pointer "
+              onClick={toggleMenu}
+            >
+              <div
+                className={`block w-[30px] h-[2px] my-[3px] bg-[#333333] transition-all duration-300 origin-center ${isOpen ? 'translate-y-[8px] rotate-45' : ''
+                  }`}
+              />
+              <div
+                className={`block w-[30px] h-[2px] my-[3px] bg-[#333333] transition-all duration-300 origin-center ${isOpen ? 'opacity-0' : ''
+                  }`}
+              />
+              <div
+                className={`block w-[30px] h-[2px] my-[3px] bg-[#333333] transition-all duration-300 origin-center ${isOpen ? '-translate-y-[8px] -rotate-45' : ''
+                  }`}
+              />
             </div>
 
-            <div className={`hamburger-dropdown ${isOpen ? 'open' : ''}`}>
-              <ul>
-                <li>
-                  <NavLink className="user-nav" to="/Aboutus" onClick={closeMenu}>
+            <div
+              className={`
+                absolute top-[220%] right-0 w-[250px] bg-white
+                shadow-[0_4px_12px_rgba(0,0,0,0.2)] py-[15px] flex flex-col items-start
+                rounded-[8px] transition-opacity duration-300 ease-in-out transform
+                ${isOpen ? 'translate-y-0 opacity-100 flex' : '-translate-y-[10px] opacity-0 hidden'}
+                md:w-[300px] md:py-[10px]
+              `}
+            >
+              <ul className="flex flex-col items-center w-full m-0 p-0 list-none">
+
+                <li className="w-full px-[20px] py-[12px] xl:hidden">
+                  <NavLink
+                    to="/MoviePage"
+                    className="text-[1.1rem] font-medium text-[#333333] no-underline transition-colors duration-300 ease hover:text-[#f39c12]
+                                "
+                  >
+                    Movies
+                  </NavLink>
+                </li>
+                <li className="w-full px-[20px] py-[12px] xl:hidden">
+                  <NavLink
+                    to="/event"
+                    className="text-[1.1rem] font-medium text-[#333333] no-underline transition-colors duration-300 ease hover:text-[#f39c12]
+                                "
+                  >
+                    Events
+                  </NavLink>
+                </li>
+                <li className="w-full px-[20px] py-[12px]">
+                  <NavLink
+                    to="/Aboutus"
+                    onClick={closeMenu}
+                    className="no-underline block w-full text-[1rem] font-medium text-[#333333] rounded-[4px] transition-colors duration-300 ease hover:bg-[#f7f7f7] hover:text-[#f39c12]"
+                  >
                     About Us
                   </NavLink>
                 </li>
-                <li>
+                <li className="w-full px-[20px] py-[12px]">
                   <NavLink
-                    className="user-nav"
                     to="/mybooking"
                     onClick={(e) => {
                       if (!isLoggedIn) {
@@ -198,27 +273,46 @@ const Usernavbar = () => {
                         closeMenu();
                       }
                     }}
+                    className="no-underline block w-full text-[1rem] font-medium text-[#333333] rounded-[4px] transition-colors duration-300 ease hover:bg-[#f7f7f7] hover:text-[#f39c12]"
                   >
                     My Bookings
                   </NavLink>
                 </li>
-                <li>
-                  <NavLink className="user-nav" to="/support" onClick={closeMenu}>
+                <li className="w-full px-[20px] py-[12px]">
+                  <NavLink
+                    to="/support"
+                    onClick={closeMenu}
+                    className="no-underline block w-full text-[1rem] font-medium text-[#333333] rounded-[4px] transition-colors duration-300 ease hover:bg-[#f7f7f7] hover:text-[#f39c12]"
+                  >
                     Help & Support
                   </NavLink>
                 </li>
-                <li>
-                  <NavLink className="user-nav" to="/faq" onClick={closeMenu}>
+                <li className="w-full px-[20px] py-[12px]">
+                  <NavLink
+                    to="/faq"
+                    onClick={closeMenu}
+                    className="no-underline block w-full text-[1rem] font-medium text-[#333333] rounded-[4px] transition-colors duration-300 ease hover:bg-[#f7f7f7] hover:text-[#f39c12]"
+                  >
                     FAQ
                   </NavLink>
                 </li>
-                <li>
+                <li className="w-full px-[20px] py-[12px]">
                   <button
                     type="button"
-                    className="trylog-button"
                     onClick={isLoggedIn ? handleLogout : () => navigate('/trylogin')}
+                    className="
+                      w-full
+                      bg-[#e8e8e8]
+                      text-[1rem]
+                      font-medium
+                      text-[#333333]
+                      rounded-[4px]
+                      py-[8px]
+                      transition-colors duration-300 ease
+                      hover:bg-[#f0f0f0]
+                    "
                   >
-                    <span>{isLoggedIn ? 'Logout' : 'Login'}</span>
+                    {isLoggedIn ? 'Logout' : 'Login'}
                   </button>
                 </li>
               </ul>
@@ -228,21 +322,24 @@ const Usernavbar = () => {
       </div>
 
       {showPopup && (
-        <div className="popup-overlay-Booking">
-          <div className="popup-Booking">
-            <p className="popup-message-Booking">Please log in to view your bookings.</p>
-            <div className="popup-buttons-Booking">
+        <div className="fixed inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center z-[1000]">
+          <div className="bg-white p-[30px] rounded-[8px] text-center w-[400px] shadow-[0_2px_10px_rgba(0,0,0,0.3)]">
+            <p className="text-[16px] mb-[20px]">Please log in to view your bookings.</p>
+            <div className="flex justify-around">
               <button
-                className="popup-button-Booking"
+                className="block box-border border-2 border-[#000000] rounded-[0.75em] px-[1.5em] py-[0.75em] bg-[#e8e8e8] text-[#000000] transform -translate-y-[0.2em] transition-transform duration-100 ease-in hover:-translate-y-[0.33em] active:translate-y-0"
                 onClick={() => {
                   setShowPopup(false);
                   navigate('/trylogin');
                 }}
               >
-                <span className="button_top">Login</span>
+                <span className="text-[17px] font-bold">Login</span>
               </button>
-              <button className="popup-cancel-button-Booking" onClick={() => setShowPopup(false)}>
-                <span className="button_top">Cancel</span>
+              <button
+                className="block box-border border-2 border-[#000000] rounded-[0.75em] px-[1.5em] py-[0.75em] bg-[#e8e8e8] text-[#000000] transform -translate-y-[0.2em] transition-transform duration-100 ease-in hover:-translate-y-[0.33em] active:translate-y-0"
+                onClick={() => setShowPopup(false)}
+              >
+                <span className="text-[17px] font-bold">Cancel</span>
               </button>
             </div>
           </div>
