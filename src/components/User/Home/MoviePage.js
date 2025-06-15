@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./MoviePage.css";
+import BottomNav from "./BottomNav";
 import Usernavbar from "../Home/Usernavbar";
 
 const MoviePage = () => {
   const [movies, setMovies] = useState([]);
   const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get("http://localhost:5000/movieview")
@@ -42,7 +44,7 @@ const MoviePage = () => {
   return (
     <>
       <Usernavbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-      <div className="pt-[90px] px-[10px] flex flex-col items-center mb-[10px] 
+      <div className="pt-[90px] px-[10px] flex flex-col items-center mb-[100px] 
       2xl:pt-[90px] 2xl:px-[20px] 2xl:flex 2xl:flex-col 2xl:items-center 2xl:mb-[30px]">
         <div className="font-sans text-[#444441] mb-[10px]
         2xl:font-sans 2xl:text-[#444441] 2xl:mb-[20px]"><h2>Movies</h2></div>
@@ -53,6 +55,9 @@ const MoviePage = () => {
           {["Hindi", "English", "Marathi", "Gujarati", "Tamil", "Telugu", "Bengali"].map(lang => (
             <button key={lang} className={`px-3 py-2 rounded-full    2xl:px-3 2xl:py-2 2xl:rounded-full ${selectedLanguages.includes(lang) ? 'bg-orange-600 text-white' : 'bg-gray-200 text-gray-700'}`} onClick={() => toggleLanguage(lang)}>{lang}</button>
           ))}
+        </div>
+        <div className="mb-6 text-center bg-orange-600 text-white px-[1.7rem] py-3 rounded-lg shadow-md">
+          <button className="text-[15px]" onClick={()=>navigate('/comingsoon')}>Coming Soon Explore Upcoming Movies &gt;</button>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[35px] 2xl:gap-[70px]">
@@ -75,7 +80,9 @@ const MoviePage = () => {
           ))}
         </div>
       </div>
+      <BottomNav/>
     </>
+    
   );
 };
 

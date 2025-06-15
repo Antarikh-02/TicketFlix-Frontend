@@ -1,14 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
-import "../Home/Moviedetails.css";
 import Usernavbar from "./Usernavbar";
 import { FaFilm, FaStar } from "react-icons/fa";
 import Footer from "./Footer";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
 
 function Moviedetails() {
   // Movie detail states
-  const [movieImage, setMovieImage] = useState("");  
+  const [movieImage, setMovieImage] = useState("");
   const [movieName, setMovieName] = useState("");
   const [movieGenre, setMovieGenre] = useState("");
   const [movieLanguage, setMovieLanguage] = useState("");
@@ -57,7 +58,7 @@ function Moviedetails() {
         movieFormat,
         movieDuration,
         movieDescription,
-        imageURL,       // Full poster URL returned from the server
+        imageURL,
         movieCast,
         trailerLink,
         reviews: fetchedReviews,
@@ -95,26 +96,22 @@ function Moviedetails() {
 
   // On mount, determine the movie ID from URL params, location state, or localStorage
   useEffect(() => {
-    // Prefer the ID from the URL params (set when navigating from navbar)
     const movieId = paramId || localStorage.getItem("id");
     if (!movieId) {
       navigate("/");
       return;
     }
     setId(movieId);
-    
-    // If location.state exists (passed from navbar), you could optionally set details directly:
+
     if (location.state) {
-      // Assuming location.state contains at least some movie details:
       if (location.state.movieName) setMovieName(location.state.movieName);
       if (location.state.movieGenre) setMovieGenre(location.state.movieGenre);
       if (location.state.movieLanguage) setMovieLanguage(location.state.movieLanguage);
       if (location.state.movieFormat) setMovieFormat(location.state.movieFormat);
       if (location.state.image) setMovieImage(location.state.image);
       if (location.state.trailerLink) setTrailerLink(location.state.trailerLink);
-      // Optionally, you could skip fetchData if you trust the passed data.
     }
-    // In any case, fetch complete data from the backend.
+
     fetchData(movieId);
   }, [navigate, paramId, location.state]);
 
@@ -203,7 +200,6 @@ function Moviedetails() {
       localStorage.setItem(localKey, JSON.stringify(response.data.reviews));
       setReviews(response.data.reviews);
 
-      // Clear form fields and close modal
       setReviewerName("");
       setReviewRating("");
       setReviewText("");
@@ -215,121 +211,305 @@ function Moviedetails() {
   };
 
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <Usernavbar />
 
-      {/* Movie Details Section */}
-      <div className="moviedetails-container">
+      {/* Movie Details Section (Mobile‑First) */}
+      <div
+        className="
+          flex flex-col justify-center items-center
+          bg-gradient-to-r from-[#f1f2b5] to-[#135058] text-[#17202a]
+          p-4 mt-[70px]
+          lg:flex-row lg:items-start lg:justify-between lg:p-8 lg:mt-[70px] 
+          xl:flex-row xl:items-start xl:justify-between xl:p-8 xl:mt-[70px] 
+          antarikh:flex-row antarikh:items-start antarikh:justify-between antarikh:p-8 antarikh:mt-[70px] 
+        "
+      >
         {movieImage && (
-          <div className="detail-item-1 poster-container">
-            <img src={movieImage} alt={movieName} className="movie-image" />
+          <div
+            className="
+              w-3/4 max-w-[240px] max-lg:mb-4
+              lg:w-[200px] lg:max-w-none  lg:order-2 lg:mr-[150px] 
+              xl:w-[200px] xl:max-w-none  xl:order-2 xl:mr-[185px]
+              antarikh:w-[200px] antarikh:max-w-none antarikh:order-2 antarikh:mr-[215px]
+            "
+          >
+            <img
+              src={movieImage}
+              alt={movieName}
+              className="
+                w-full h-auto rounded-sm mx-auto
+                lg:mx-0
+                xl:mx-0
+                antarikh:mx-0
+              "
+            />
           </div>
         )}
-        <div className="detail-item-2">
-          <h1>{movieName}</h1>
-          <div className="movie-stats">
-            <span>{movieLanguage}</span>
-            <span>{movieGenre}</span>
-            <span>{movieFormat}</span>
-            <span>{movieDuration}</span>
+
+        <div
+          className="
+            w-full text-center
+            lg:text-left lg:flex-1 lg:pr-8
+            xl:text-left xl:flex-1 xl:pr-8
+            antarikh:text-left antarikh:flex-1 antarikh:pr-8
+          "
+        >
+          <div className="lg:flex lg:flex-row lg:justify-start lg:mb-4 lg:w-[70%] lg:ml-[154px]
+                          xl:mb-4  xl:w-[70%] xl:ml-[186px]
+                          antarikh:mb-4  antarikh:w-[70%] antarikh:ml-[215px]">
+            <h1
+              className="
+                max-lg:w-[full] text-center text-2xl font-extrabold mb-2
+                lg:text-4xl 
+                xl:text-4xl 
+                antarikh:text-4xl
+              "
+            >
+              {movieName}
+            </h1>
           </div>
-          {/* Trailer Button */}
-          <div className="trailer-button-container">
-            <button onClick={handlePosterClick} className="trailer-button">
-              <FaFilm className="trailer-icon" /> Watch Trailer
+
+          <div
+            className="
+              w-full flex flex-wrap justify-start gap-2 mb-4 pl-4 sm:justify-center
+              lg:flex lg:flex-col lg:gap-1.6 lg:items-start lg:ml-[139px]
+              xl:flex xl:flex-col xl:gap-1.6 xl:items-start xl:ml-[172px]
+              antarikh:flex antarikh:flex-col antarikh:gap-1.6 antarikh:items-start antarikh:ml-[200px]
+            "
+          >
+            <span className="text-base font-extrabold">{movieLanguage}</span>
+            <span className="text-base font-extrabold">{movieGenre}</span>
+            <span className="text-base font-extrabold">{movieFormat}</span>
+            <span className="text-base font-extrabold">{movieDuration}</span>
+          </div>
+
+          <div
+            className="
+              flex flex-col gap-3
+              lg:flex-col lg:items-start lg:gap-4 lg:w-[400px] lg:ml-[150px]
+              xl:flex-col xl:items-start xl:gap-4 xl:w-[400px] xl:ml-[185px]
+              antarikh:flex-col antarikh:items-start antarikh:gap-4 antarikh:w-[400px] antarikh:ml-[215px]
+            "
+          >
+            <button
+              onClick={handlePosterClick}
+              className="
+                mr-[11rem] bg-[#135058] text-white px-4 py-3 rounded-full text-base transition-transform duration-200 hover:scale-105
+                sm:ml-[11rem]
+                lg:ml-0 lg:mr-0
+                xl:ml-0 xl:mr-0
+                antarikh:ml-0 antarikh:mr-0
+              "
+            >
+              <FaFilm className="inline-block mb-1 mr-1" />
+              Watch Trailer
             </button>
-          </div>
-          {/* Book Tickets Button */}
-          <div className="booking-button-container">
-            <button onClick={handleClick} className="booking-button">
+            <button
+              onClick={handleClick}
+              className="
+                ml-[11rem] bg-[#135058] text-white px-4 py-3 rounded-full text-base transition-transform duration-200 hover:scale-105 max-lg:hidden
+                lg:inline-block lg:ml-0
+                xl:inline-block xl:ml-0
+                antarikh:inline-block antarikh:ml-0
+              "
+            >
               Book Tickets
             </button>
           </div>
         </div>
       </div>
 
+      <div className="flex justify-center mt-4 gap-[2.6rem]
+                      lg:mt-6 lg:gap-8 lg:hidden"
+      >
+        <h3 className="mt-[5px] lg:mt-0">Review our movie</h3>
+        <button
+          onClick={openReviewModal}
+          className="
+            bg-[#fff] text-black border-[2px] border-pink-500 px-[2.5rem] py-2 rounded-full text-base transition-colors duration-300
+            lg:px-6 lg:py-3
+          "
+        >
+          Rate Now
+        </button>
+      </div>
+
       {/* Movie Description */}
-      <div className="Movie-description">
-        <h2>About the movie</h2>
-        <p>{movieDescription}</p>
+      <div
+        className="
+          px-4 mt-6 text-[#121920] leading-relaxed border-gray-300 pb-4 mb-8
+          lg:px-40 lg:mt-10 lg:mb-12 lg:ml-[154px] lg:mr-[100px]
+          xl:px-40 xl:mt-10 xl:mb-12 xl:ml-[188px] xl:mr-[150px]
+          antarikh:px-40 antarikh:mt-10 antarikh:mb-12 antarikh:ml-[215px] antarikh:mr-[200px]
+        "
+      >
+        <h2 className="text-xl font-bold mb-2 lg:text-2xl lg:mb-4">
+          About the movie
+        </h2>
+        <p className="text-base lg:text-lg">{movieDescription}</p>
+      </div>
+
+      {/* Ad Banner */}
+      <div
+        className="flex justify-center p-[10px] mb-[2rem] mt-[-3rem]
+                  lg:mb-16 lg:mt-[-50px] lg:mx-[164px] 
+                  xl:mb-16 xl:mt-[-50px] xl:mx-[200px]
+                  antarikh:mb-16 antarikh:mt-[-50px] antarikh:mx-[230px]"
+      >
+        <a href="https://codehubsodepur.in/" rel="noopener noreferrer">
+          <img src={require('./Codehub.png')} alt="ad-banner" />
+        </a>
       </div>
 
       {/* Movie Cast */}
-      <div className="movie-cast">
-        <h2>Cast</h2>
-        <ul>
-          {movieCast.length > 0 ? (
-            movieCast.map((actor, index) => (
-              <li key={index}>
-                <div className="cast-member">
-                  <img src={actor.image} alt={actor.name} className="cast-image" />
-                  <p>{actor.name}</p>
-                </div>
+      <div className="xl:flex xl:flex-col xl:justify-start xl:items-start px-4 mb-8 
+                      lg:px-40 lg:mb-12
+                      xl:px-40 xl:mb-12 xl:ml-[9rem]
+                      antarikh:px-40 antarikh:mb-12 antarikh:ml-[10.5rem]">
+        <h2 className="text-lg font-bold mb-4 lg:px-40 lg:mt-[-30px] lg:mb-12 lg:ml-[0px]
+        xl:px-40 xl:mt-[-30px] xl:mb-12 xl:ml-[-115px]">Cast</h2>
+
+        {/* MOBILE SWIPER (shown < lg) */}
+        {movieCast.length > 0 && (
+          <div className="block lg:hidden">
+            <Swiper slidesPerView={2.2} spaceBetween={40} freeMode={true}>
+              {movieCast.map((actor, idx) => (
+                <SwiperSlide key={idx} className="w-auto">
+                  <div className="flex flex-col items-center">
+                    <img
+                      src={actor.image}
+                      alt={actor.name}
+                      className="w-[120px] h-[120px] rounded-full object-cover mb-2"
+                    />
+                    <span className="block text-center text-sm font-medium">
+                      {actor.name}
+                    </span>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        )}
+
+        {/* DESKTOP LIST (shown ≥ lg) */}
+        {movieCast.length > 0 && (
+          <ul className="hidden lg:flex flex-wrap justify-center gap-6">
+            {movieCast.map((actor, idx) => (
+              <li key={idx} className="flex flex-col items-center">
+                <img
+                  src={actor.image}
+                  alt={actor.name}
+                  className="w-[100px] h-[100px] rounded-full object-cover mb-2"
+                />
+                <p className="text-center font-medium">{actor.name}</p>
               </li>
-            ))
-          ) : (
-            <p>No cast information available.</p>
-          )}
-        </ul>
+            ))}
+          </ul>
+        )}
+
+        {/* EMPTY STATE */}
+        {movieCast.length === 0 && (
+          <p className="text-center">No cast information available.</p>
+        )}
       </div>
 
-      {/* Movie Reviews (Horizontal Slider with Single Arrow) */}
-      <div className="movie-reviews">
-        <h2>Reviews</h2>
+      {/* Movie Reviews */}
+      <div className="px-4 mb-8 
+                      lg:mx-[155px] lg:mb-12
+                      xl:mx-[185px] xl:mb-12
+                      antarikh:mx-[215px] antarikh:mb-12">
+        <h2 className="text-xl text-[#135058] font-bold mb-4 border-b-2 border-[#135058] pb-2 lg:text-2xl lg:mb-6">
+          Reviews
+        </h2>
         {reviews.length > 0 ? (
-          <div className="reviews-slider-container">
-            <button className={`slider-arrow ${arrowPosition}`} onClick={handleArrowClick}>
-              {arrowPosition === "right" ? ">" : "<"}
+          <div className="relative ">
+            <button
+              onClick={handleArrowClick}
+              className={`
+                max-lg:hidden absolute top-1/2 transform -translate-y-1/2
+                bg-gray-200 rounded-full w-8 h-8 text-lg opacity-80 hover:opacity-100
+                ${arrowPosition === 'right' ? 'right-2' : 'left-2'}
+                lg:w-10 lg:h-10 lg:text-xl
+                xl:w-10 xl:h-10 xl:text-xl
+                antarikh:w-10 antarikh:h-10 antarikh:text-xl
+              `}
+            >
+              {arrowPosition === 'right' ? '>' : '<'}
             </button>
-            <div className="reviews-slider" ref={reviewsSliderRef} onScroll={handleScroll}>
-              <ul>
-                {reviews.map((item, index) => (
-                  <li key={index}>
-                    <div className="review-item">
-                      <p>
-                        <strong>{item.user || "Anonymous"}</strong> rated it ⭐ {item.rating} / 5
-                      </p>
-                      {item.review && <p>{item.review}</p>}
-                    </div>
+            <div
+              ref={reviewsSliderRef}
+              onScroll={handleScroll}
+              className="
+                overflow-x-auto whitespace-nowrap scroll-snap-x-mandatory scroll-smooth no-scrollbar py-2
+                lg:py-4 lg:overflow-x-hidden
+              "
+            >
+              <ul className="inline-flex gap-4 p-0 m-0">
+                {reviews.map((item, idx) => (
+                  <li
+                    key={idx}
+                    className="
+                      flex-none w-[280px] bg-white rounded-lg shadow p-4 scroll-snap-start hover:-translate-y-1 hover:shadow-lg transition
+                      lg:w-[320px] lg:p-6
+                      xl:w-[320px] xl:p-6
+                      antarikh:w-[320px] antarikh:p-6
+                    "
+                  >
+                    <p className="font-semibold text-[#135058] mb-2">
+                      {item.user || 'Anonymous'} rated it ⭐ {item.rating}/10
+                    </p>
+                    {item.review && <p>{item.review}</p>}
                   </li>
                 ))}
               </ul>
             </div>
           </div>
         ) : (
-          <p>No reviews available.</p>
+          <p className="text-center">No reviews available.</p>
         )}
       </div>
 
       {/* Submit Review Button */}
-      <div className="submit-review-container">
-        <button onClick={openReviewModal} className="submit-review-button">
+      <div className="px-4 mb-8 lg:px-40 lg:mb-12 ">
+        <button
+          onClick={openReviewModal}
+          className="w-full bg-[#135058] text-white py-3 rounded-full text-base transition-colors duration-300 hover:bg-[#0d3a40] hidden 
+          lg:block lg:w-fit lg:px-[15px] lg:ml-[157px]
+          xl:block xl:w-fit xl:px-[15px] xl:ml-[185px]
+          antarikh:block antarikh:w-fit antarikh:px-[15px] antarikh:ml-[215px]
+          "
+        >
           Submit Your Review
         </button>
       </div>
 
       {/* Review Modal */}
       {showReviewModal && (
-        <div className="modal-overlay-review">
-          <div className="modal-content-review">
-            <span className="modal-close-review" onClick={closeReviewModal}>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white w-[400px] max-w-[90%] p-5 rounded-lg shadow-lg relative">
+            <span
+              onClick={closeReviewModal}
+              className="absolute top-2 right-3 text-2xl cursor-pointer"
+            >
               &times;
             </span>
-            <h2>Submit Your Review</h2>
+            <h2 className="text-xl font-bold mb-4">Submit Your Review</h2>
             <form onSubmit={handleReviewSubmit}>
-              <div className="form-group">
-                <label htmlFor="reviewerName">Your Name</label>
+              <div className="mb-4">
+                <label htmlFor="reviewerName" className="block mb-1">Your Name</label>
                 <input
                   id="reviewerName"
                   type="text"
                   value={reviewerName}
                   onChange={(e) => setReviewerName(e.target.value)}
                   placeholder="Enter your name"
+                  className="w-full border border-gray-300 rounded px-3 py-2"
                 />
               </div>
-              <div className="custom-rating-container">
-                <FaStar className="rating-star-icon" />
-                <div className="slider-wrapper">
+              <div className="flex items-center my-6">
+                <FaStar className="text-pink-400 text-xl mr-2" />
+                <div className="relative flex-1 mx-2">
                   <input
                     type="range"
                     min="0"
@@ -337,23 +517,31 @@ function Moviedetails() {
                     step="1"
                     value={reviewRating}
                     onChange={(e) => setReviewRating(e.target.value)}
-                    className="rating-slider"
+                    className="w-full h-1 bg-gray-300 rounded appearance-none cursor-pointer"
                   />
-                  <span className="slider-label">SLIDE TO RATE &rarr;</span>
+                  <span className="absolute -top-4 left-1/2 transform -translate-x-1/2 text-sm text-gray-500 pointer-events-none">
+                    SLIDE TO RATE →
+                  </span>
                 </div>
-                <span className="rating-value">{reviewRating}/10</span>
+                <span className="min-w-[40px] text-right text-sm text-gray-700">
+                  {reviewRating}/10
+                </span>
               </div>
-              <div className="form-group">
-                <label htmlFor="review">Review</label>
+              <div className="mb-4">
+                <label htmlFor="review" className="block mb-1">Review</label>
                 <textarea
                   id="review"
                   value={reviewText}
                   onChange={(e) => setReviewText(e.target.value)}
                   rows="4"
                   placeholder="Share your thoughts about the movie"
+                  className="w-full border border-gray-300 rounded px-3 py-2"
                 />
               </div>
-              <button type="submit" className="submit-button">
+              <button
+                type="submit"
+                className="bg-gradient-to-br from-[#135058] to-[#135058] text-white py-2 px-5 rounded-full"
+              >
                 Submit Review
               </button>
             </form>
@@ -363,18 +551,21 @@ function Moviedetails() {
 
       {/* Language Popup */}
       {showLanguagePopup && (
-        <div className="popup-language-booking">
-          <div className="popup-language-booking-content">
-            <span className="popup-language-close" onClick={closeLanguagePopup}>
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-lg max-w-sm w-[90%] text-center shadow relative">
+            <span
+              onClick={closeLanguagePopup}
+              className="absolute top-3 right-4 text-xl cursor-pointer"
+            >
               &times;
             </span>
-            <h2>Select Language</h2>
-            <div style={{ marginTop: "1rem" }}>
-              {splittedLangs.map((lang, index) => (
+            <h2 className="text-xl font-bold mb-4">Select Language</h2>
+            <div className="mt-4">
+              {splittedLangs.map((lang, idx) => (
                 <button
-                  key={index}
-                  className="popup-language-button"
+                  key={idx}
                   onClick={() => handleLanguageSelect(lang)}
+                  className="inline-block border-2 border-blue-500 rounded-full px-4 py-2 m-1 text-blue-500 transition-colors duration-200 hover:bg-blue-500 hover:text-white"
                 >
                   {lang}
                 </button>
@@ -383,6 +574,17 @@ function Moviedetails() {
           </div>
         </div>
       )}
+
+      {/* Mobile-only fixed Book Tickets */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white px-4 py-2 shadow-lg z-50 lg:hidden">
+        <button
+          onClick={handleClick}
+          className="w-full bg-[#135058] text-white py-3 rounded-full text-base transition-transform duration-200 hover:scale-105"
+        >
+          Book Tickets
+        </button>
+      </div>
+
       <Footer />
     </div>
   );

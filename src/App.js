@@ -33,6 +33,7 @@ import Faq from './components/User/Home/Faq';
 import Eventdetails from './components/User/Home/Eventdetails';
 import Eventticketbooking from './components/User/Home/Eventticketbooking';
 import MoviePage from './components/User/Home/MoviePage';
+import ComingSoon from './components/User/Home/ComingSoon';
 import AddEvent from './components/Admin/Addevent';
 import Eventview from './components/Admin/Eventview';
 import Editevent from './components/Admin/Editevent';
@@ -109,6 +110,8 @@ return (
             element = {<Eventticketbooking/>}/>
           <Route path = '/MoviePage'
             element = {<MoviePage/>}/>
+          <Route path = '/ComingSoon'
+            element = {<ComingSoon/>}/>
           <Route path = '/addevent'
             element = {<AddEvent/>}/>
           <Route path = '/eventview'
